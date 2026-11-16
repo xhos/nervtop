@@ -39,7 +39,7 @@
         meta.mainProgram = "nervtop";
         version = self.shortRev or self.dirtyShortRev or "dev";
         src = ./.;
-        vendorHash = pkgs.lib.fakeHash;
+        vendorHash = "sha256-HDjQ5sp9h2TU8jLDcIjcYUi6KTyF8hZSPAWzAnSBysU=";
         ldflags = ["-s" "-w"];
       };
     });
