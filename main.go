@@ -3,11 +3,17 @@ package main
 import (
 	"fmt"
 	"os"
+	"strings"
 	"time"
 
 	tea "charm.land/bubbletea/v2"
 	"charm.land/lipgloss/v2"
 )
+
+var warningStyle = lipgloss.NewStyle().
+	Foreground(lipgloss.Black).
+	Background(lipgloss.Red).
+	Bold(true).Padding(0, 1)
 
 type model struct {
 	w, h  int
@@ -54,7 +60,16 @@ func (m model) View() tea.View {
 		return newView("loading...")
 	}
 
-	s := fmt.Sprintf("%d x %d\n frames: %d", m.w, m.h, m.frame)
+	banner := warningStyle.Render("警告 WARNING")
+
+	size := fmt.Sprintf("%d x %d", m.w, m.h)
+	frame := fmt.Sprintf("frames: %d", m.frame)
+
+	if (m.frame/5)%2 != 0 {
+		banner = strings.Repeat(" ", lipgloss.Width(banner))
+	}
+
+	s := lipgloss.JoinVertical(lipgloss.Center, size, frame, banner)
 	s = lipgloss.Place(m.w, m.h, lipgloss.Center, lipgloss.Center, s)
 
 	return newView(s)
